@@ -30,10 +30,6 @@ public class IamService {
 	
     @Value("${cloud.aws.credentials.secretKey}")
     private String secretKey;
-
-    @Value("${cloud.aws.region.static}")
-    private String region;
-    
   
  	
 	//IAM user create
