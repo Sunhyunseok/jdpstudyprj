@@ -31,9 +31,6 @@ public class BucketService {
     @Value("${cloud.aws.credentials.secretKey}")
     private String secretKey;
 
-    @Value("${cloud.aws.region.static}")
-    private String region;
-    
     
 	public  Bucket getBucket(String bucketName) {
 		AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
