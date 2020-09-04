@@ -12,6 +12,7 @@ import com.skcc.iam.domain.IamUser;
 import com.skcc.iam.service.IamService;
 
 
+
 @RestController
 
 @RequestMapping("/v1/iam/")
@@ -36,7 +37,7 @@ public class IamController {
 		return this.iamService.createIAMAccessKey(user.getUserName());
 	}
 	
-	 //policy 생성
+	 //policy 생성 (독립 s3버킷 full access)
 	@PostMapping("/iam-policy") 
 	 public String createIAMPolicy(@RequestBody IamUser user) throws IOException { 
 		 return this.iamService.createIAMPolicy(user.getUserName());
