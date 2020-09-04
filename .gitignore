@@ -1,6 +1,6 @@
 # Compiled class file
 *.class
-
+application.yml
 # Log file
 *.log
 
