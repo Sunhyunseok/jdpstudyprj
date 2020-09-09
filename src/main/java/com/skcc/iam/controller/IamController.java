@@ -3,6 +3,7 @@ package com.skcc.iam.controller;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,12 @@ public class IamController {
 		return this.iamService.createIAMUser(user.getUserName());
 	}
 	
+	/*
+	@GetMapping("/user")
+	public String getIAMUser() throws IOException {
+		return this.iamService.getIAMUser();
+	}
+	*/
 	//access key 생성 및 할당 
 	@PostMapping("/access-key")
 	public String createAccessKey(@RequestBody IamUser user) throws IOException {

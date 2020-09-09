@@ -1,5 +1,7 @@
 package com.skcc.iam.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,10 @@ import com.amazonaws.services.identitymanagement.model.CreatePolicyRequest;
 import com.amazonaws.services.identitymanagement.model.CreatePolicyResult;
 import com.amazonaws.services.identitymanagement.model.CreateUserRequest;
 import com.amazonaws.services.identitymanagement.model.CreateUserResult;
+import com.amazonaws.services.identitymanagement.model.ListUsersRequest;
+import com.amazonaws.services.identitymanagement.model.ListUsersResult;
+import com.amazonaws.services.identitymanagement.model.User;
+import com.skcc.iam.domain.IamUser;
 
 import software.amazon.awssdk.services.iam.model.IamException;
 
@@ -31,20 +37,58 @@ public class IamService {
     @Value("${cloud.aws.credentials.secretKey}")
     private String secretKey;
   
- 	
+    
+    public AmazonIdentityManagement buildIamClient() {
+    	
+    	AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
+    	AmazonIdentityManagement iam = AmazonIdentityManagementClientBuilder.standard()
+	 			.withCredentials(new AWSStaticCredentialsProvider(credentials))
+	            .withRegion(Regions.AP_NORTHEAST_2)
+	            .build();
+    	return iam;
+    }
+    
+    //get IAMuser List
+    /*
+    public List<IamUser> getIAMUser(){
+    	
+    	AmazonIdentityManagement iam = buildIamClient();
+    	boolean done = false;
+	    ListUsersRequest request = new ListUsersRequest();
+
+	    while(!done) {
+	        ListUsersResult response = iam.listUsers(request);
+
+	        for(User user : response.getUsers()) {
+	            System.out.format("Retrieved user %s", user.getUserName());
+	        }
+
+	        request.setMarker(response.getMarker());
+
+	        if(!response.getIsTruncated()) {
+	            done = true;
+	        }
+	    }
+    }
+    */
+   
+        
+        
 	//IAM user create
 	public String createIAMUser(String userName) {
 		  
-		AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
+		//AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
 			 
-	 	AmazonIdentityManagement iam = AmazonIdentityManagementClientBuilder.standard()
-		 			.withCredentials(new AWSStaticCredentialsProvider(credentials))
-		            .withRegion(Regions.AP_NORTHEAST_2)
-		            .build();
+	 	//AmazonIdentityManagement iam = AmazonIdentityManagementClientBuilder.standard()
+		// 			.withCredentials(new AWSStaticCredentialsProvider(credentials))
+		//            .withRegion(Regions.AP_NORTHEAST_2)
+		//            .build();
+		
 	 	//String username = userName;
 	 	//Region region = Region.AWS_GLOBAL;
 		//IamClient iam = IamClient.builder().region(region).build();
 		
+		AmazonIdentityManagement iam = buildIamClient();
 	 	
 	 	try {
            
@@ -64,16 +108,17 @@ public class IamService {
 	//User IAM AccessKey create
 	public String createIAMAccessKey(String userName) {
 		  
-		AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
-		AmazonIdentityManagement iam = AmazonIdentityManagementClientBuilder.standard()
-		 			.withCredentials(new AWSStaticCredentialsProvider(credentials))
-		            .withRegion(Regions.AP_NORTHEAST_2)
-		            .build();
+		//AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
+		//AmazonIdentityManagement iam = AmazonIdentityManagementClientBuilder.standard()
+		// 			.withCredentials(new AWSStaticCredentialsProvider(credentials))
+		//            .withRegion(Regions.AP_NORTHEAST_2)
+		//            .build();
 		//String username = userName;
 		//Region region = Region.AWS_GLOBAL;
 		//IamClient iam = IamClient.builder().region(region).build();
 		 
-			
+		AmazonIdentityManagement iam = buildIamClient();
+		
 	 	try {
 	        	
             //CreateAccessKeyRequest request = CreateAccessKeyRequest.builder().userName(username).build();
@@ -127,14 +172,16 @@ public class IamService {
            
 	
 	public String createIAMPolicy(String userName) {
-		AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
-	 	AmazonIdentityManagement iam = AmazonIdentityManagementClientBuilder.standard()
-		 			.withCredentials(new AWSStaticCredentialsProvider(credentials))
-		            .withRegion(Regions.AP_NORTHEAST_2)
-		            .build();
+		//AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
+	 	//AmazonIdentityManagement iam = AmazonIdentityManagementClientBuilder.standard()
+		// 			.withCredentials(new AWSStaticCredentialsProvider(credentials))
+		//            .withRegion(Regions.AP_NORTHEAST_2)
+		//            .build();
 		//String username = userName;
 		//Region region = Region.AWS_GLOBAL;
 		//IamClient iam = IamClient.builder().region(region).build();
+
+		AmazonIdentityManagement iam = buildIamClient();
 		
 		String policyName= "JDPpolicy"+userName;
 		String policydocument = PolicyDocument(userName);

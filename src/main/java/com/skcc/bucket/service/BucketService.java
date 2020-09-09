@@ -32,11 +32,22 @@ public class BucketService {
     private String secretKey;
 
     
-	public  Bucket getBucket(String bucketName) {
-		AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
+    public AmazonS3 buildS3Client() {
+    	AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
         AmazonS3 s3 = AmazonS3ClientBuilder.standard()
         		.withCredentials(new AWSStaticCredentialsProvider(credentials))
         		.withRegion(Regions.AP_NORTHEAST_2).build();
+        return s3;
+    }
+    
+	public Bucket getBucket(String bucketName) {
+		
+		//AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
+        //AmazonS3 s3 = AmazonS3ClientBuilder.standard()
+        //		.withCredentials(new AWSStaticCredentialsProvider(credentials))
+        //		.withRegion(Regions.AP_NORTHEAST_2).build();
+		
+		AmazonS3 s3 = buildS3Client();
         
         Bucket named_bucket = null;
         List<Bucket> buckets = s3.listBuckets();
@@ -50,10 +61,12 @@ public class BucketService {
 	
 	public Bucket createBucket(String userName) {
 		
-		AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
-        AmazonS3 s3 = AmazonS3ClientBuilder.standard()
-        		.withCredentials(new AWSStaticCredentialsProvider(credentials))
-        		.withRegion(Regions.AP_NORTHEAST_2).build();
+		//AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
+        //AmazonS3 s3 = AmazonS3ClientBuilder.standard()
+        //		.withCredentials(new AWSStaticCredentialsProvider(credentials))
+        //		.withRegion(Regions.AP_NORTHEAST_2).build();
+		
+		AmazonS3 s3 = buildS3Client();
 		
 		String bucketName = "jdpbucket"+userName;
         
@@ -71,7 +84,8 @@ public class BucketService {
         return b;
     }
 	
-	//test commit
+	
+
 	public static String getPublicReadPolicy(String bucket_name) {
         Policy bucket_policy = new Policy().withStatements(
                 new Statement(Statement.Effect.Allow)
@@ -102,10 +116,11 @@ public class BucketService {
 	
     public String setBucketPolicy(String userName) {
     	
-    	AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
-        AmazonS3 s3 = AmazonS3ClientBuilder.standard()
-        		.withCredentials(new AWSStaticCredentialsProvider(credentials))
-        		.withRegion(Regions.AP_NORTHEAST_2).build();
+    	//AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
+        //AmazonS3 s3 = AmazonS3ClientBuilder.standard()
+        //		.withCredentials(new AWSStaticCredentialsProvider(credentials))
+        //		.withRegion(Regions.AP_NORTHEAST_2).build();
+    	AmazonS3 s3 = buildS3Client();
         
         String bucket_name= "jdpbucket"+userName;
         String policydocument = PolicyDocument(userName);
@@ -120,10 +135,11 @@ public class BucketService {
     
     public String uploadFile(String userName, File file) {
     	
-    	AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
-        AmazonS3 s3 = AmazonS3ClientBuilder.standard()
-        		.withCredentials(new AWSStaticCredentialsProvider(credentials))
-        		.withRegion(Regions.AP_NORTHEAST_2).build();
+    	//AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
+        //AmazonS3 s3 = AmazonS3ClientBuilder.standard()
+        //		.withCredentials(new AWSStaticCredentialsProvider(credentials))
+        //		.withRegion(Regions.AP_NORTHEAST_2).build();
+    	AmazonS3 s3 = buildS3Client();
         
     	String bucketName = "jdpbucket"+userName;
     	

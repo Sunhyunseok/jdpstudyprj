@@ -3,6 +3,7 @@ package com.skcc.bucket.controller;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +15,7 @@ import com.skcc.bucket.service.BucketService;
 
 @RestController
 
-@RequestMapping("/v1/bucket/")
+@RequestMapping("/v1/s3/")
 public class BucketController {
 
 	private BucketService bucketService;
@@ -29,6 +30,12 @@ public class BucketController {
 	public Bucket createBucket(@RequestBody BucketUser user) throws IOException {
 		return this.bucketService.createBucket(user.getUserName());
 	}
+	
+	//버킷 삭제
+	//@DeleteMapping("/bucket")
+	//public Bucket deleteBucket(@RequestBody BucketUser user) throws IOException {
+	//	return this.bucketService.deleteBucket(user.getUserName());
+	//}
 	
 	//s3 버킷 정책 생성
 	//@PostMapping("/bucket-policy")
